@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}
+    博客列表
+{% endblock %}
+
+{% block content %}
+        <div class="container blog-list main">
+            <div class="row">
+                <div class="col-sm-8 ">
+            
+                    <p>一共有{{ blogs.paginator.count}}篇博客</p>
+                    <hr>
+                {% for blog in blogs %}
+                    <h4 ><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a><span class="label label-default">{{ blog.blog_type }}</span></h4> 
+                    <p> {{ blog.content|safe|striptags|truncatechars:200 }}</p>
+                    <br>
+                {% empty %}
+                    <p> -- 暂无博客，敬请期待 -- </p>   
+                {% endfor %}
+                </div>
+                <div class="col-sm-3 col-sm-offset-1 hidden-xs">
+                    <h3>博文分类</h3>
+                    {% for type in blog_type %}
+                        <a href="{% url 'blog_with_type' type.pk %}">{{ type }}</a>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <ul class="pagination">
+                <li>
+                    {% if blogs.has_previous %}
+                        <a href="?page={{blogs.previous_page_number}}" aria-label="Pervious"><span aria-hidden="true">&laquo;</span></a>
+                    {% else %}
+                        <span aria-hidden="true">&laquo;</span>
+                    {% endif %}
+                </li>
+
+                {% for page in pages.page_range %}
+                    <li><a href="?page={{page}}">{{page}}</a></li>
+                {% endfor %}
+
+                <li>
+                    {% if blogs.has_next %}
+                        <a href="?page={{blogs.next_page_number}}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% else %}
+                        <span aria-hidden="true">&raquo;</span>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
+
+{%endblock%}
+
+
+{% block extra_footer %}
+
+<script type="text/javascript">
+    $(".pagination li:eq({{blogs.number}})").addClass("active");
+</script>
+
+{% endblock %}
+    

@@ -1,0 +1,129 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="医疗大数据研究室">
+  <meta name="generator" content="Atom">
+  <title>医疗大数据研究室</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <script type="text/javascript">
+　　function myfun(y) 　　
+  { 　
+      if(y == true)　{
+        alert("用户名或密码错误！"); 
+      } 
+      　　
+  } 　　/*用window.onload调用myfun()*/　　
+  window.onload = myfun({{error_message}});//不要括号
+  </script>
+  
+</head>
+
+<body class="login-body">
+  <form class="form-signin" action="{% url 'login' %}" method="POST">
+    <br />{% csrf_token %}<br />
+    <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+    <label for="inputUsername" class="sr-only">用户名</label>
+    <input type="username" name="username" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+    <label for="inputPassword" class="sr-only">密码</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="密码" required>
+    <div class="checkbox mb-3 my-3">
+      <label>
+        <input type="checkbox" value="remember-me">记住我</input>
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2018-2018 &nbsp;<a href="{% url 'home' %}">医疗大数据研究室</a></p>
+  </form>
+
+ <script src="{% static 'js/jquery-3.3.1.min.js' %}" ></script>
+  <script src="{% static 'js/popper.min.js' %}" ></script>
+  <script src="{% static 'js/bootstrap.min.js' %}" ></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+<!-- {#{% extends 'base.html' %}#}
+{% load staticfiles %}
+
+{% block title %}
+    登录页
+{% endblock %}    
+
+{% block content %}
+<br>
+<body class="login-body">
+  <form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+    <label for="inputUsername" class="sr-only">用户名</label>
+    <input type="username" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+    <label for="inputPassword" class="sr-only">密码</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+    <div class="checkbox mb-3 my-3">
+      <label>
+        <input type="checkbox" value="remember-me">记住我</input>
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 医疗大数据实验室</p>
+  </form>
+
+</body>
+{% endblock %}
+
+
+ -->
+
+
+
+
+
+<!-- 
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="医疗大数据实验室">
+  <meta name="generator" content="Atom">
+  <title>医疗大数据实验室</title>
+  <link rel="stylesheet" href="css\bootstrap.min.css">
+  <link rel="stylesheet" href="css\styles.css">
+  <script src="js\jquery-3.3.1.min.js"></script>
+  <script src="js\popper.min.js"></script>
+  <script src="js\bootstrap.min.js"></script>
+</head>
+
+<body class="login-body">
+  <form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+    <label for="inputUsername" class="sr-only">用户名</label>
+    <input type="username" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+    <label for="inputPassword" class="sr-only">密码</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+    <div class="checkbox mb-3 my-3">
+      <label>
+        <input type="checkbox" value="remember-me">记住我</input>
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 医疗大数据实验室</p>
+  </form>
+
+</body>
+
+</html>
+ -->

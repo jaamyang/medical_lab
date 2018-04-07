@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block title %}
+    资源下载
+{% endblock %}
+
+
+{% block style %}
+<script type="text/javascript">
+　　function myfun(y) 　　
+  { 　
+      if(y == true)　{
+        alert("您没有相关下载权限！"); 
+      } 
+      　　
+  } 　　　
+  window.onload = myfun({{error_message}});
+  </script>
+{% endblock %}
+
+
+{% block content %}
+<br>
+
+ <h2>下载文件</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>文件名</th>
+          <th>描述</th>
+          <th>上传时间</th>
+          <th>下载链接</th>
+        </tr>
+      </thead>
+      {% for file in files %}
+      <tbody>
+        <td>{{file.file_name}}</td>
+        <td>{{ file.descript }}</td>
+        <td>{{ file.upload_date }}</td>
+        <td><a class="link-style" href="{% url 'file_download' file.pk %}" >下载</a></td>
+      </tbody>
+      {% endfor %}
+
+
+
+
+      <!-- <tbody>
+        <tr>
+          <td>1</td>
+          <td>blue.png</td>
+          <td>图片</td>
+          <td>2018/2/20</td>
+          <td><a class="link-style" href="img\blue.png" download="blue">下载</a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>pink.png</td>
+          <td>图片</td>
+          <td>2018/2/20</td>
+          <td><a class="link-style" href="img\pink.png" download="pink">下载</a></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>purple.png</td>
+          <td>图片</td>
+          <td>2018/2/20</td>
+          <td><a class="link-style" href="img\purple.png" download="purple">下载</a></td>
+        </tr>
+      </tbody> -->
+    </table>
+  </div>
+
+{% endblock %}
+

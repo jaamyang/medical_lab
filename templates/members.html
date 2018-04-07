@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block title %}
+    研究室成员
+{% endblock %}
+
+
+
+
+
+{% block content %}
+<br>
+ <div class="card-group card-group-style">
+    <div class="card card-style">
+      <img class="card-img-top" src="{% static 'img\boy.png' %}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title title">研究人员A</h5>
+        <p class="card-text paragraph">此人简介</p>
+      </div>
+    </div>
+    <div class="card card-style">
+      <img class="card-img-top" src="{% static 'img\boy.png' %}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title title">研究人员B</h5>
+        <p class="card-text paragraph">此人简介</p>
+      </div>
+    </div>
+    <div class="card card-style">
+      <img class="card-img-top" src="{% static 'img\boy.png' %}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title title">研究人员C</h5>
+        <p class="card-text paragraph">此人简介</p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    研究室活动
+{% endblock %}
+
+
+
+
+{% block content %}
+  <br>
+
+
+
+  <div class="row card-group-style">
+    <div class="col-4">
+      <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action" id="activityOne-list" data-toggle="list" href="#activityOne" role="tab" aria-controls="activityOne">新闻中心</a>
+        <a class="list-group-item list-group-item-action active" id="activityTwo-list" data-toggle="list" href="#activityTwo" role="tab" aria-controls="activityTwo">学术活动</a>
+        <a class="list-group-item list-group-item-action" id="activityThree-list" data-toggle="list" href="#activityThree" role="tab" aria-controls="activityThree">科研成果</a>
+        <a class="list-group-item list-group-item-action" id="activityFour-list" data-toggle="list" href="#activityFour" role="tab" aria-controls="activityFour">通知公告</a>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="activityOne" role="tabpanel" aria-labelledby="activityOne-list">
+          {% if news %}
+            {% for text in news %}
+              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
+            {% endfor %}
+          {% else %}
+            <p style = 'text-align: center'>--暂无新闻--</p>
+          {% endif %}          
+        </div>
+        <div class="tab-pane fade" id="activityTwo" role="tabpanel" aria-labelledby="activityTwo-list">
+          {% if activity %}
+            {% for text in activity %}
+              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
+            {% endfor %}
+          {% else %}
+            <p style = 'text-align: center'>--暂无活动--</p>
+          {% endif %}
+        </div>
+        <div class="tab-pane fade" id="activityThree" role="tabpanel" aria-labelledby="activityThree-list">
+          {% if achievements %}
+            {% for text in achievements %}
+              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
+            {% endfor %}
+          {% else %}
+            <p style = 'text-align: center'>--暂无成果--</p>
+          {% endif %}
+        </div>
+        <div class="tab-pane fade" id="activityFour" role="tabpanel" aria-labelledby="activityFour-list">
+          {% if notice %}
+            {% for text in notice %}
+              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
+            {% endfor %}
+          {% else %}
+            <p style = 'text-align: center'>--暂无通知--</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+<!-- {% block active %}
+  <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action" id="activityOne-list" data-toggle="list" href="#activityOne" role="tab" aria-controls="activityOne">新闻中心</a>
+        <a class="list-group-item list-group-item-action active" id="activityTwo-list" data-toggle="list" href="#activityTwo" role="tab" aria-controls="activityTwo">学术活动</a>
+        <a class="list-group-item list-group-item-action" id="activityThree-list" data-toggle="list" href="#activityThree" role="tab" aria-controls="activityThree">科研成果</a>
+        <a class="list-group-item list-group-item-action" id="activityFour-list" data-toggle="list" href="#activityFour" role="tab" aria-controls="activityFour">通知公告</a>
+  </div>
+
+{% endblock %}
+ -->
+
