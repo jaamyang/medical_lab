@@ -1,0 +1,215 @@
+
+、Verilog HDL 既是一种行为描述的语
+ 
+既可以用电路的功能描述也
+
+Verilog HDL模型。Verilog
+
+
+ 
+(system): 用高级语言结构实现
+ 
+(algorithmic): 用高级语言结构
+ 
+级(Register Transfer Level): 描
+
+ 
+(gate-level): 描述逻辑门以及逻
+ 
+(switch-level): 描述器件中三
+
+ 
+
+简单的Verilog HDL程序介绍  
+  addr  
+
+
+
+
+
+
+
+程序是嵌套在 module和 
+声明语句里的。   
+
+、比较器  
+
+声明输出信号
+
+声明输入信号a,b  
+（a==b）？1：0;  
+如果a、b 两个输入信号相等,输出为
+。否则为0*/ 
+
+这个程序中,/*........*/和
+表示注释部分,注释只是为
+,对编译是不起作
+  
+
+、三态驱动器  
+
+
+
+
+
+Verilog语言库中
+bufif1来实
+ 
+
+、Verilog HDL中总共有十九种数据类
+,数据类型是用来表示数字电路硬件中
+在本课程中我
+,它们
+ 
+型、wire型、integer型、parameter
+ 
+
+、 
+位宽为8的数的二进制
+, 'b表示二进制 
+位宽为8的数的十六进
+'h表示十六进制。   
+位宽为4的二进制数从低位数
+ 
+位宽为4的二进制数从低位数
+ 
+位宽为12的十进制数其值为高
+(第一种表达方式) 
+位宽为12的十进制数其值为高
+(第二种表达方式) 
+//位宽为8的十六进制数其低
+ 
+//这个表达式代表5的补数（用
+) 
+
+、下划线(underscore_):  
+
+但不可以用在位宽和进制处,
+: 
+  //合法
+ 
+   
+非法格式 
+
+、当常量不说明位数时，默认值是32
+ 
+ 
+＝32’d10＝32’b1010 
+’d1=32’b1 
+’d1=32’hFFFFFFFF 
+bx= 32’bx=32’bxxxx,xxxx  
+
+、参数(Parameter)型  
+Verilog HDL中用parameter来定义常
+,即用parameter来定义一个标识符代
+,称为符号常量,即标识符形
+,采用标识符代表一个常量可提
+parameter
+其说明格式如下：    10、 parameter 参数名1＝表达式，参数名2＝表达式, , ， 参数名n＝表达式;   parameter  msb=7;       //定义参数msb为常量7 parameter  e=25, f=29;  //定义二个常数参数 在“always”块内被赋值的每一个信号都必须定义成reg型。  11、 memory型数据是通过扩展reg型数据的地址范围来生成的。其格式如下：   reg [n-1:0] 存储器名[m-1:0]；  或 reg [n-1:0] 存储器名[m:1]；  reg [7:0]  mema[255：0];   这个例子定义了一个名为mema的存储器，该存储器有256个8位的存储器。该存储器的地址范围是0到255。 1)       ~           //取反 2)       &           //按位与 3)       |           //按位或 4)       ^           //按位异或 5)       ^~          //按位同或(异或非) 7)       && 逻辑与 8)       || 逻辑或 9)       !  逻辑非  12、在Verilog HDL语言中存在四种等式运算符: 1)       == (等于) 2)       != (不等于) 3)       === (等于) 4)       !== (不等于)  13、D触发器： module flop(data,clock,clear,q,qb); input data,clock,clear; output q,qb;       nand nd1(a,data,clock,clear),     nd2(b,ndata,clock),     nd4(d,c,b,clear),     nd5(e,c,nclock),     nd6(f,d,nclock),     nd8(qb,q,f,clear);     nand nd3(c,a,d),     nd7(q,e,qb);     not   iv1(ndata,data),     iv2(nclock,clock);   endmodule   14、门级多路选择器： module twomux (out, a, b, sl);   input a, b, sl;   output out;       not    u1 (nsl, sl );       and   u2 (sela, a, nsl);       and   u3 (selb, b, sl);       or      u4 (out, sela, selb); endmodule   15、半加器的例子 module HalfAdder(A, B, Sum, Carry);        input  A, B;        output  Sum, Carry;        assign   Sum=A^B;        assign   Carry=A&B;   endmodule   16、四选一多路选择器 module mux4_1 (out,i0,i1,i2,i3,s0,s1);  output out;  input  i0,i1,i2,i3;  input  s0,s1;  assign out =s1? ( s0? i3:i2) : (s0? i1:i0);  endmodule   17、四位全加器   module fulladder4(sum,cout,a,b,cin);  output[3:0] sum;  output cout;  input [3:0] a,b;  input cin;  assign {cout,sum} =a+b+cin;  endmodule  18、端口与外部信号的连接： 1）顺序端口连接 连接到模块实例的信号必须与模块声明时模块端口列表中的位置保持一致。   module fulladd4_tb;     reg[3:0]  A，B；      reg C_IN;     wire[3:0]  SUM;     wire  C_OUT;    fulladd4   uut ( SUM, C_OUT, A, B, C_IN);    endmodule  module fulladd4( sum,c_out,a,b,c_in);  endmodule  2）命名端口连接:      在复杂的设计中，模块可能具有很多个端口，在这种情况下，要记住列表中的顺序是很困难的，而且容易出错，verilog提供了另一种端口连接方式。      fulladd4 uut(.c_out(C_OUT),.sum(SUM),.a(A)                   .b(B),.c_in(C_IN)); 端口连接规则 从模块内部来讲，输入端口必须为线网型。从模块外部来看，输入口可以连接到线网或reg型变量。 从模块内部看，输出口可以是线网或reg型。但从模块外部来看，输出必须连接到线网型，而不能连接到reg型的变量            19、nitial和always是verilog中用于行为级建模的两种基本语句，其他所有的行为语句只能出现在这两种过程语句中。 每个initial和always语句代表一个独立的（并发）执行过程。每个执行过程从仿真时间0开始，并且这两种语句不能嵌套使用 [例]：        reg[7:0] counter;        reg tick;        always @(posedge areg)          begin            tick <= ~tick;            counter <= counter + 1;         end 这个例子中,每当areg信号的上升沿出现时把tick信号反相，并且把counter增加1。这种时间控制是always语句最常用的。  20、if(a>b)  out1<=int1; else  if(a==b)  out1<=int2; else            out1<=int3;  21、循环语句 在Verilog HDL中存在着四种类型的循环语句，用来控制执行语句的执行次数。 1) forever连续的执行语句。 2) repeat连续执行一条语句 n 次。 3) while  执行一条语句直到某个条件不满足。如果一开始条件即不满足(为假)，则语句一次也不能被执行。 4) for通过三个步骤来决定语句的循环执行。 注意: 循环语句只能在always或initial块中使用。 例2：用for循环语句来实现乘法器  parameter  size = 8, longsize = 16;   reg[size:1] opa, opb;   reg[longsize:1] result;     begin:mult     integer bindex;    result=0;    for( bindex=1; bindex<=size; bindex=bindex+1 )        if(opb[bindex])        result = result + (opa<<(bindex-1));   end  22、组合逻辑电路设计实例： [例1] 八位带进位端的加法器的设计实例（利用简单的算法描述） module adder_8(cout,sum,a,b,cin); output cout; output [7:0] sum; input cin; input[7:0] a,b; assign {cout,sum}=a+b+cin; endmodule  [例4]. 比较器的设计实例（利用赋值语句设计组合逻辑） module compare(equal,a,b); parameter size=1; output equal; input [size-1:0] a, b; assign  equal =（a==b）? 1 : 0; endmodule   [例5]. 3-8译码器设计实例（利用赋 值语句设计组合逻辑） module decoder(out,in); output [7:0] out; input [2:0] in; assign  out = 1‘b1<<in;/**** 把最低位的1 左移 in（根据从in口输入的值）位，并 赋予out  ****/ endmodule             [例6]. 8-3编码器的设计实例 编码器设计方案之一： module encoder1(out,in); output [2:0] out; input [7:0] in; reg [2:0] out; always @(in)    begin: local      integer  i;      out = 0;       /*returns the value of the highest bit  number turned on*/ for( i=0; i<8; i=i+1 ) begin if( in[i] ) begin out = i; end end end endmodule   23、输出驱动器设计实例 三态输出驱动器设计方案: module trist1( out, in, enable); output out; input in, enable; assign  out = enable? in: 'bz; endmodule  [例1]触发器设计实例 module dff( q, data, clk); output q; input data, clk; reg q; always @( posedge clk )  begin             q = data;   end endmodule   [例2]. 电平敏感型锁存器设计实例 module latch3( q, data, clk); output q; input data, clk; reg q; always @(clk or data) begin     if(clk)        q=data; end endmodule  [例3]. 移位寄存器设计实例 module shifter( din, clk, clr, dout); input din, clk, clr; output [7:0] dout; reg [7:0] dout; always @(posedge clk) begin   if(clr) dout = 8'b0; //清零        else begin     dout <= dout<<1;//左移一位     dout[0] <= din;  end//把输入信号放入寄存器的最低位  end endmodule       24、、任务和函数(task和function) 不同点： 函数主要用来计算，任务却可以支持多种目的 函数只能与主模块共用同一个时间单位，而任务可以定义自己的时间单位 函数返回一个值，而任务没有返回值。 函数的目的是通过返回一个值来响应输入信号的值。任务却能支持多种目的，能计算多个结果值，这些结果值只能通过被调用的任务的输出或总线端口送出。Verilog HDL模块使用函数时是把它当作表达式中的操作符，这个操作的结果值就是这个函数的返回值。 相同点： 任务和函数必须在module内调用 在任务和函数中不能声明wire，所有输入/输出都是局部寄存器  任务和函数只能使用行为级语句，但是不能包含always和initial块。 任务/函数执行完成后才返回结果。 例如，若任务/函数中有forever语句，则永远不会返回结果 25、有限状态机 有限状态机是设计复杂时序电路最有效的方法之一。特别是设计数字逻辑的控制核心时。 有限状态机是由寄存器组和组合逻辑构成的硬件时序电路。 其状态（即由寄存器组的1和0的组合状态所构成的有限个状态）只能在同一时钟跳变沿的情况下才能从一个状态转向另一个状态。 moore有限状态机：输出仅依赖于内部状态，跟输入无关。 mealy有限状态机：输出不仅决定于内部
+ 
+、、什么是硬件描述语言？ 它的主要作
+ 
+HDL是 一种用形式化的方法来描述
+作
+设计者可以利用这种语言描述自己的
+进行数字逻辑电路的设计、验
+ 。 
+
+、、 采用硬件描述语言设计方法的优点
+ 有什么缺点？ 
+优点：一、能将电子系统在不同的抽
+ 
+二、能在每个抽象层次的描述上
+ 
+三、较高层次的HDL描述与具体
+便于标准化和发展可重
+ 
+四、 推动EDA设计技术及整个电
+ 
+缺点：没有传统的绘制电路图的方
+ 
+
+、、简述top—down和硬件描述语言的
+ 
+top-down 是一种硬件设计的方法，
+
+而且借助于EDA
+可以自动的实现从高一层次到低一
+这就使得自顶向下的设计方
+ 
+
+、硬件描述语言设计的数字系统需要经
+ 
+verilog，除reg类型之外，还支持
+、real和time寄存器数据类型； 
+例如： integer i； 
+verilog支持任意维数的数组。 
+  类型  size  数组名 
+
+ time chk_point[99：0]; 
+verilog使用一维数组表示存储
+ 
+ reg [7:0] mem[0:1023]; 
+示信息系统函数：
+
+time: %d    output a 
+
+视信息系统该函数：
+只要参数列表
+ 
+, "at time %d : 
+
+ $stop; 
+ $finish; 
+在仿真时刻为100单
+ 
+在仿真时刻为800单
+ 
+
+、基本的逻辑门 
+(and)、或门(or) 
+主要包括： and   or   xor    
+
+/非门(buf/not) 
+主要包括：  buf   not    
+
+ 
+0,x,z变化为1
+ 
+1,x,z变化为0
+ 
+0,1,x变化为z
+ 
+ #（上升延迟， 下降延迟， 关断
+ 
+/典型/最大延迟：对上述三种延迟指
+ 
+and #(2:3:4,  3:4:5,  4:5:6 ) 
+上升延迟：最小延迟2，典型延迟3，
+4 
+下降延迟：最小延迟3，典型延迟4，
+5 
+关断延迟：最小延迟4，典型延迟5，
+6 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 31、J-K触发器 module jk_ff(   input j,   input k,   input clock,   input clear,   output q,   output qbar);          wire a,b,y,ybar,c,d; assign  cbar = ~ clock; assign a = ~( qbar &  j  & clear & clock );     assign  b    = ~(  clock &  k     & q     );     assign  y    = ~( a     & ybar   );      assign  ybar = ~( y     & clear & b  );     assign  c    = ~(  y     & cbar       );     assign  d    = ~( cbar  & ybar     );     assign  q    = ~( c & qbar    );     assign  qbar = ~( q  & clear & d  ); endmodule   32、用Verilog编写电路仿真激励的时候，被仿真模块的输入用reg/wire关键字申明，模块的输出用wire关键字申明，模块之前的连接信号应该用wire关键字申明。  33、在Verilog语言中，端口的互通常有两种方式：通过名称关联和通过位置关联。  34、在Verilog中，存在4种类型的循环语句：forever、while、repeat、for  35、Always语句中，initial语句之间是并发执行的，除此之外Fork-join并行块之间的语句也是并发执行的。  36、函数中部允许有输出变量和双向变量，不允许有延时、时间、或者事件控制，至少有一个输入变量，并由一个返回值，该值的默认类型是reg类型。  37、Verilog中有两种书写注释的方法：单行注释和多行注释，单行注释以//开始，多行注释用/**/表示。  38、Verilog用两个符号分别表示不确定值X和高阻值Z  39、Verilog中定义整数用关键字integer声明，定义实数寄存器数据类型用关键字real来声明，定义时间寄存器用关键字time  40、在仿真中，一般使用寄存器一维数组来表示寄存器，若定义一个1024个位宽为8bit的名为menbit的储存器可声明为：reg[7:0]membit[0:1023]  41、系统任务$finish的作用是：结束仿真；$stop的作用是：暂停仿真  42、上升延迟是指：在门的输入发生变化的情况下，门的输出由0、X、Z变为1所需的时间；下降延迟是指：门的输出从1、X、Z变为0的时间；关断延迟是指：门的输出从1、X、0变为Z的时间  43、在always块中，被赋值的信号都必须定义为reg；在assign语句中，被赋值的信号都必须被定义为wire类型。  44、设定a=4’b1110,b=4’b0101,对于双目运算符表达式a&b完成的功能是：a与b按位与，得到0100，对于单目运算符表达式&a完成的功能是：将a的每位bit逐个相与，最后产生1bit的值。 

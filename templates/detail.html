@@ -19,6 +19,24 @@
             <a href="{% url 'file_download' file.pk %}">{{ file.file_name }}</a>
         {%endfor%}
     {% endif %}
+    <hr>
+    <div>
+        <p>上一篇：
+            {% if next_text %}
+                <a href="{% url 'text_detail' next_text.pk %}">{{next_text.title}}</a>
+            {% else %}
+                没有了
+            {% endif %}            
+        </p>
+        <p>下一篇：
+            {% if pervious_text %}
+                <a href="{% url 'text_detail' pervious_text.pk %}">{{pervious_text.title}}</a>
+            {% else %}
+                没有了
+            {% endif %}            
+        </p>
+                
+    </div>
 
 </div>
 {% endblock %}

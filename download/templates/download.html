@@ -44,10 +44,6 @@
         <td><a class="link-style" href="{% url 'file_download' file.pk %}" >下载</a></td>
       </tbody>
       {% endfor %}
-
-
-
-
       <!-- <tbody>
         <tr>
           <td>1</td>
@@ -72,6 +68,39 @@
         </tr>
       </tbody> -->
     </table>
+  </div>
+  <br>
+  <div class="pagination">
+    <ul class="pagination justify-content-center">
+      {% if page.has_previous %}
+          <li class="page-item ">
+            <a class="page-link" href="?page=1" tabindex="-1">&laquo;</a>
+          </li>
+      {% else %}
+          <li class="page-item  disabled">
+            <a class="page-link" href="?page=1" tabindex="-1">&laquo;</a>
+          </li>
+      {% endif %}
+      
+      {% for number in page.paginator.page_range %}
+          {% if page.number is number %}
+            <li class="page-item active"><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+          {% else %}
+            <li class="page-item "><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+          {% endif %}
+      {% endfor %}
+
+      {% if page.has_next %}
+          <li class="page-item ">
+            <a class="page-link" href="?page={{ page.paginator.num_pages }}" tabindex="-1">&raquo;</a>
+          </li>
+      {% else %}
+          <li class="page-item  disabled">
+            <a class="page-link" href="?page={{ page.paginator.num_pages }}" tabindex="-1">&raquo;</a>
+          </li>
+      {% endif %}      
+    </ul>
+       
   </div>
 
 {% endblock %}

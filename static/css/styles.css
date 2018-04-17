@@ -15,11 +15,13 @@
   max-width: 300px;
 }
 
-.footer-style {
+footer {
   background-color: #f7f7f7;
   box-sizing: border-box;
   font-size: 85%;
   text-align: center;
+  bottom:0;
+  width:100%;
 }
 
 @media (min-width: 576px) {
@@ -84,4 +86,14 @@
     height: 315px;
     width: 560px;
   }
+}
+
+body {
+  /*background-color: #b1edf5;*/
+  min-height:100%;
+}
+
+.fixed-bottom {
+  position: fixed;bottom: 0;
+  width:100%;
 }

@@ -24,7 +24,7 @@
     </div>
     <div class="col-8">
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="activityOne" role="tabpanel" aria-labelledby="activityOne-list">
+        <div class="tab-pane fade  " id="activityOne" role="tabpanel" aria-labelledby="activityOne-list">
           {% if news %}
             {% for text in news %}
               <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
@@ -33,7 +33,7 @@
             <p style = 'text-align: center'>--暂无新闻--</p>
           {% endif %}          
         </div>
-        <div class="tab-pane fade" id="activityTwo" role="tabpanel" aria-labelledby="activityTwo-list">
+        <div class="tab-pane fade show active" id="activityTwo" role="tabpanel" aria-labelledby="activityTwo-list">
           {% if activity %}
             {% for text in activity %}
               <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 

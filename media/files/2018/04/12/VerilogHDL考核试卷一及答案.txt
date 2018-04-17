@@ -1,0 +1,148 @@
+
+ 
+——2009学年第一学期  2006级 电气类专业（类） 
+EDA技术 课程类别 必修 考核类型 考查 考核方式闭卷 类别 A   
+ 选择题： 
+、下列标示符哪些是合法的（B  ） 
+、$time    B、_date     C、8sum      D、mux# 
+、如果线网类型变量说明后未赋值，起缺省值是（D  ） 
+、x     B、1     C、0     D、z  
+、现网中的值被解释为无符号数。在连续赋值语句中，assign addr[3:0]=-3;addr被赋予
+ A ） 
+、4’b1101   B、4’b0011   C、4’bxx11   D、4’bzz11 
+、reg[7:0] mema[255:0]正确的赋值是（A ） 
+、mema[5]=3’ d0,  B、8’ d0;  C、1’ b1;   D、mema[5][3:0]=4’ d1 
+、在code模块中参数定义如下，请问top模块中d1模块delay1、delay2的值是( D ) 
+                               module top;  
+                       ……………. 
+                              code #(1,5) d1(x1,y1); 
+                                    endmodule 
+、（1,1）  B、（5,5）  C、（5,1）  D、（1,5） 
+、“a=4’ b11001,b=4’ bx110”选出正确的运算结果（B ） 
+、a&b=0   B、a&&b=1   C、b&a=x   D、b&&a=x 
+、时间尺度定义为timescale 10ns/100ps，选择正确答案（C ） 
+、时间精度10ns   B、时间单位100ps   C、时间精度100ps  D、时间精度不确定 
+、若a=9,执行$display(“current value=%0b,a=%0d”,a,a)正确显示为（B  ） 
+、current value=1001,a=09               B、current vale=1001,a=9  
+、1001,9                              D、current vale=00,001001,a=9 
+、aways  begin  #5  clk=0；#10 clk=~clk;end产生的波形（ A ） 
+、占空比1/3    B、clk=1     C、clk=0     D、周期为10 
+、在Verilog中定义了宏名 `define sum a+b+c 下面宏名引用正确的是（C  ） 
+、out=’sum+d;    B、out=sum+d;    C、out=`sum+d;    D、都正确 
+（共15分，每小题3分） 
+、某一纯组合电路输入为in1，in2和in3，输入出为out，则该电路描述中always的事
+always@(in1,in2,in3 );若某一时序电路由时钟clk信号上升沿触发，同步
+rst清零，该电路描述中always的事件表达是应该写为always 
+ posedge clk  )。 
+、在模块中对任务进行了定义，调用此任务，写出任务的调用 mytast(f,g,m,n,p) 。 
+ mytast;                 要求：变量的传递关系如下 
+ x,y;                    m——a，n——b，p——c，x——f，y——g 
+ a,b,c; 
+. 
+
+、if(a)    out1<=int1;      当a=     1       执行out1<=int1 
+   out1<=int2;      当a=     0       执行out1<=int2 
+、4’ b1001<<2= 4’b100100 ，4’ b1001>>2= 4’b0010  。 
+、下面程序中语句5、6、7、11是  并行  执行，语句9、10是   顺序  执行 
+  1   module M(,,); 
+  2   input  ,,.  ; 
+  3   output ,,； 
+  4   reg      a,b,,； 
+  5   always@(,,..) 
+  6   assign   f=c&d; 
+  7   always@(,,..) 
+  8   begin 
+  9   a=,,.； 
+  10  b=,,.； 
+      end 
+  11  mux    mux1(out,in0,in1); 
+    endmodule 
+（共30分） 
+、always语句和initial语句的关键区别是什么？能否相互嵌套？（5分） 
+语句是循环语句，initial只执行一次。它们不能嵌套。 
+、画出下面程序段中r(reg型)的仿真波形 (6分) 
+fork 
+ #20  r=1’  b0; 
+ #10  r=1’  b1; 
+ #15  r=1’  b1; 
+ #25  r=1’  b1; 
+ #5   r=1’  b0; 
+
+
+       3、画出下面程序综合出来的电路图。(7分) 
+           always@(posedge  clk)  
+              begin 
+                q0<=~q2; 
+                q1<= q0; 
+                q2<= q1; 
+            end 
+       4、HA模块程序如下，写出引用HA模块描述FA模块的Verilog程序。(7分) 
+           module HA(A,B,S,C); 
+              input  A,B; 
+       output  S,C; 
+       assign  {C,S}=A+B; 
+       endmodule 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+、写出下面程序中变量x，y，cnt，m，q的类型(5分) 
+  x=y;                    
+always@(posegde  clk) 
+ begin 
+   cnt=m+1; 
+    q=~q; 
+   end 
+(6分) 
+、设计一奇偶校验位生成电路，输入八位总线信号bus，输出及校验位odd，偶校
+even。(6分) 
+、设计一个带复位端且对输入时钟clk进行二分频模块，并画出仿真波形。(9分) 
+ 
+、设计一带异步复位端、异步置数段（低电平有效）的四位加法计数器，时钟clk
+，复位信号clr，置数信号load、输入数据data、输出qout。并画出仿
+（20分） 
+1.  module parity(even,odd,bus); 
+ even,odd; 
+   //奇同偶异 
+偶校验用异或 
+奇校验用同或 
+
+
+ reset,clk; 
+ out; 
+ out; 
+
+ x为wire型 y为reg或wire型 cnt为reg型 m为reg或wire型 q为reg型 
+
+
+
+ out<=~out; 
+
+
+ adder_4(qout,clr,clk,load,data); 
+
+
+ load,clr,clk; 
+
+
+
+
+
+
+
+
+
+
+仿真波形 
