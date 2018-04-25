@@ -9,15 +9,15 @@
 
 
 {% block style %}
-<script type="text/javascript">
-　　function myfun(y) 　　
-  { 　
-      if(y == true)　{
-        alert("您没有相关下载权限！"); 
-      } 
-      　　
-  } 　　　
-  window.onload = myfun({{error_message}});
+  <script type="text/javascript">
+  　　function myfun(y) 　　
+    { 　
+        if(y == true)　{
+          alert("您没有相关下载权限！"); 
+        } 
+        　　
+    } 　　　
+    window.onload = myfun({{error_message}});
   </script>
 {% endblock %}
 
@@ -102,6 +102,21 @@
     </ul>
        
   </div>
+  {% if messages %}
+
+    <ulclass="messages">
+        {%for message in messages %}
+        <li{%if message.tags %} class="{{ message.tags }}"{% endif %}>{{message }}</li>
+        {%endfor %}
+    </ul>
+
+{% endif %}
 
 {% endblock %}
+
+
+{% block script %}
+  <script src="{% static 'js/plug-in.js' %}" ></script>
+{% endblock %}
+
 

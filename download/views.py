@@ -1,9 +1,12 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.http import FileResponse 
+from django.http import FileResponse,JsonResponse,HttpResponse
 from django.contrib.auth.models import User,Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 from . import models
 # Create your views here.
+global error 
+global error_message 
 
 def list_in(list1,list2):
         if list1:
@@ -15,39 +18,15 @@ def list_in(list1,list2):
         else:
             return False
 
-def download(request,error_message):
-    # if error_message:
-    #     context = {}    
-    #     files = models.Download_file.objects.all().order_by('-upload_date')
-    #     pages = Paginator(files, 5) 
-    #     current_page = request.GET.get("page",1)
-    #     context['files'] =  pages.page(current_page)
-    #     context['page'] = pages.get_page(current_page)
-    #     context['error_message'] = 'true'
-    #     return render(request,'download.html',context)
-    # else:
-        #error_message = request.POST.get("error_message",'false')
-        context = {}    
-        files = models.Download_file.objects.all().order_by('-upload_date')
-        pages = Paginator(files, 5) 
-        current_page = request.GET.get("page",1)
-        context['files'] =  pages.page(current_page)
-        context['page'] = pages.get_page(current_page)
-        context['error_message'] = error_message
-        return render(request,'download.html',context)
-
-
-
-
-
-    # context = {}    
-    # files = models.Download_file.objects.all().order_by('-upload_date')
-    # pages = Paginator(files, 5) # Show 25 contacts per page
-    # current_page = request.GET.get("page",1)
-    # context['files'] =  pages.page(current_page)
-    # context['page'] = pages.get_page(current_page)
-    # context['error_message'] = error_message
-    # return render(request,'download.html',context)
+def download(request,error_message = 'false'):
+            context = {}    
+            files = models.Download_file.objects.all().order_by('-upload_date')
+            pages = Paginator(files, 8) 
+            current_page = request.GET.get("page",1)
+            context['files'] =  pages.page(current_page)
+            context['page'] = pages.get_page(current_page)
+            context['error_message'] = error_message
+            return render(request,'download.html',context)
 
 def file_download(request,file_pk):
     download_file = get_object_or_404(models.Download_file,pk = file_pk)
@@ -65,19 +44,21 @@ def file_download(request,file_pk):
         file=open(download_file.file.path,'rb')  
         response =FileResponse(file)  
         response['Content-Type']='application/octet-stream'  
-        response['Content-Disposition']='attachment;filename='+download_file.file.name
+        response['Content-Disposition']='attachment;filename='+"".join(download_file.file.name.split('/')[-1:]).encode('utf-8').decode('ISO-8859-1')
         return response  
     elif list_in(user_group,file_group):
         file=open(download_file.file.path,'rb')  
         response =FileResponse(file)  
         response['Content-Type']='application/octet-stream'  
-        response['Content-Disposition']='attachment;filename='+download_file.file.name
+        response['Content-Disposition']='attachment;filename='+"".join(download_file.file.name.split('/')[-1:]).encode('utf-8').decode('ISO-8859-1')
         return response  
     else:
+        #messages.error(request,'您没有相关下载权限！')
         error_message = 'true'
-        return download(request,error_message)
-        # error_message = 'true'
+        return redirect(download)
+        
         # flag = True
-        # return redirect(download,error_message='true')
-
+        # return download(request,error_message)
+def test(request):
+    return render(request,'test.html')
 
