@@ -1,3 +1,4 @@
+from django.views.decorators.http import require_POST
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import FileResponse,JsonResponse,HttpResponse
 from django.contrib.auth.models import User,Group
@@ -28,7 +29,9 @@ def download(request,error_message = 'false'):
             context['error_message'] = error_message
             return render(request,'download.html',context)
 
-def file_download(request,file_pk):
+@require_POST
+def file_download(request):
+    file_pk = request.POST["file_pk"]
     download_file = get_object_or_404(models.Download_file,pk = file_pk)
 
     user_group = []
@@ -55,7 +58,7 @@ def file_download(request,file_pk):
     else:
         #messages.error(request,'您没有相关下载权限！')
         error_message = 'true'
-        return redirect(download)
+        return HttpResponse(error_message)
         
         # flag = True
         # return download(request,error_message)
