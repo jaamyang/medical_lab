@@ -41,7 +41,7 @@
         <td>{{file.file_name}}</td>
         <td>{{ file.descript }}</td>
         <td>{{ file.upload_date }}</td>
-        <td><a name="download" class="link-style" href="javascript:" onClick="download({{file.pk}})">下载</a></td>
+        <td><a name="download" class="link-style" href="javascript:" onClick="fdownload({{file.pk}})">下载</a></td>
       </tbody>
       {% endfor %}
       <!-- <tbody>
@@ -118,7 +118,7 @@
 {% block script %}
   <script src="{% static 'js/plug-in.js' %}" ></script>
   <script type="text/javascript">
-    function download(file_pk){
+    function fdownload(file_pk){
       $.ajaxSetup({
           data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
       });
@@ -126,10 +126,10 @@
           url:"{% url 'file_download'  %}",
           type:"POST",
           data:{"file_pk":file_pk},
-          success:function(error){
-               if(error == true){
-                  $.Pop('您没有相关文件的下载权限！',{Animation:'showSweetAlert'});
-               }               
+          success:function(error_message){
+            if(error_message == "true"){
+                $.Pop('您没有相关文件的下载权限！',{Animation:'showSweetAlert'});
+              }               
           },
       });
     }

@@ -57,8 +57,8 @@ def file_download(request):
         return response  
     else:
         #messages.error(request,'您没有相关下载权限！')
-        error_message = 'true'
-        return HttpResponse(error_message)
+
+        return HttpResponse('true')
         
         # flag = True
         # return download(request,error_message)
