@@ -1,33 +1,48 @@
+#======================================================================
+#
+#        Copyright (C) 2018 medical_lab   
+#        All rights reserved
+#
+#        filename :download.view
+#
+#        created by soaki at 2018.4.1
+#
+#======================================================================
 from django.views.decorators.http import require_POST
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import FileResponse,JsonResponse,HttpResponse
 from django.contrib.auth.models import User,Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from django.urls import reverse
 from . import models
 # Create your views here.
-global error 
-global error_message 
 
 def list_in(list1,list2):
         if list1:
             for e in list1:
-                if e not in list2:
-                    return False
-            else:
-                return True
+                if e in list2:
+                    return True
+            return False
         else:
             return False
 
-def download(request,error_message = 'false'):
+def download(request):
             context = {}    
             files = models.Download_file.objects.all().order_by('-upload_date')
             pages = Paginator(files, 8) 
             current_page = request.GET.get("page",1)
             context['files'] =  pages.page(current_page)
             context['page'] = pages.get_page(current_page)
-            context['error_message'] = error_message
             return render(request,'download.html',context)
+
+def download_util(request,file_pk):
+    download_file = get_object_or_404(models.Download_file,pk = file_pk)
+    file=open(download_file.file.path,'rb') 
+    response =FileResponse(file)  
+    response['Content-Type']='application/octet-stream'  
+    response['Content-Disposition']='attachment;filename='+"".join(download_file.file.name.split('/')[-1:]).encode('utf-8').decode('ISO-8859-1')
+    return response  
 
 @require_POST
 def file_download(request):
@@ -43,25 +58,15 @@ def file_download(request):
         file_group.append(e.name)
 
     #print(user_group,file_group)
-    if '任何人' in file_group:
-        file=open(download_file.file.path,'rb')  
-        response =FileResponse(file)  
-        response['Content-Type']='application/octet-stream'  
-        response['Content-Disposition']='attachment;filename='+"".join(download_file.file.name.split('/')[-1:]).encode('utf-8').decode('ISO-8859-1')
-        return response  
-    elif list_in(user_group,file_group):
-        file=open(download_file.file.path,'rb')  
-        response =FileResponse(file)  
-        response['Content-Type']='application/octet-stream'  
-        response['Content-Disposition']='attachment;filename='+"".join(download_file.file.name.split('/')[-1:]).encode('utf-8').decode('ISO-8859-1')
-        return response  
+    if '任何人' in file_group or list_in(user_group,file_group):         
+        return HttpResponse(reverse('whatthef', args=[file_pk]))     #download_util(download_file)
     else:
-        #messages.error(request,'您没有相关下载权限！')
-
         return HttpResponse('true')
-        
-        # flag = True
-        # return download(request,error_message)
+
 def test(request):
     return render(request,'test.html')
+
+def test_download(request,file_pk):
+    download_file = get_object_or_404(models.Download_file,pk = file_pk)
+    return download_util(download_file)
 

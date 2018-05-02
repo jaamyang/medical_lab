@@ -1,3 +1,13 @@
+#======================================================================
+#
+#        Copyright (C) 2018 medical_lab   
+#        All rights reserved
+#
+#        filename :download models
+#
+#        created by soaki at 2018.3.20
+#
+#======================================================================
 from django.db import models
 from django.contrib.auth.models import Group
 

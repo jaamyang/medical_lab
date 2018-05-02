@@ -30,3 +30,31 @@
             
           </script>
 </html>
+
+
+
+ $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+      });
+      $.ajax({
+          url:"{% url 'file_download'  %}",
+          type:"POST",
+          data:{"file_pk":file_pk},
+          success:function(error_message){
+            if(error_message == "true"){
+                $.Pop('您没有相关文件的下载权限！',{Animation:'showSweetAlert'});
+              }
+            else{
+               var req = new XMLHttpRequest();
+                req.onload = function (event) {
+                   var blob = req.response;
+                   var fileName = req.getResponseHeader("fileName") //if you have the fileName header available
+                   var link=document.createElement('a');
+                   link.href=window.URL.createObjectURL(blob);
+                   link.download=fileName;
+                   link.click();
+                };
+              }               
+          },
+      });
+    }
