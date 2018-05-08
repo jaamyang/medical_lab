@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block title %}
+    搜索结果
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <div class = 'container'>
+          {% if text_list %}
+            <h4 >搜索结果：</h4>
+            <hr>
+            {% for text in text_list %}
+              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
+            {% endfor %}
+          {% else %}
+            <p style = 'text-align: center'>--无相关结果--</p>
+          {% endif %} 
+    </div>
+
+{% endblock %}

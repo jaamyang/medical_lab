@@ -33,6 +33,8 @@ urlpatterns = [
     path('ckeditor',include('ckeditor_uploader.urls')),
     path('download/',include('download.urls')),
     path('logout/',views.logout_view,name = 'logout'),
+    path('search/',views.search,name = 'search'),
+    path('data_visualization/',include('Data_visualization.urls')),
 
 ]
 

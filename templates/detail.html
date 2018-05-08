@@ -16,7 +16,7 @@
     {% if text.file.all  %}
         附件：
         {% for file in text.file.all %}
-            <a href="{% url 'file_download' file.pk %}">{{ file.file_name }}</a>
+            <a name="download" class="link-style" href="javascript:" onClick="fdownload({{file.pk}})">{{ file.file_name }}</a>
         {%endfor%}
     {% endif %}
     <hr>
@@ -39,4 +39,33 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/plug-in.js' %}" ></script>
+  <script type="text/javascript">
+
+    //jq ajax
+    function fdownload(file_pk){
+      $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+      });
+      $.ajax({
+          url:"{% url 'file_download'  %}",
+          type:"POST",
+          data:{"file_pk":file_pk},
+          success:function(result, textStatus, jqXHR){
+            if(result == "true"){
+                $.Pop('您没有相关文件的下载权限！',{Animation:'showSweetAlert'});
+              }
+            else{
+                var link=document.createElement('a');
+                link.href = new URL(result,'http://localhost:8000/')
+                link.click();
+                }
+              }               
+      });
+    }
+
+  </script>
 {% endblock %}

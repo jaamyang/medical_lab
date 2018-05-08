@@ -30,7 +30,7 @@ def list_in(list1,list2):
 def download(request):
             context = {}    
             files = models.Download_file.objects.all().order_by('-upload_date')
-            pages = Paginator(files, 8) 
+            pages = Paginator(files, 1) 
             current_page = request.GET.get("page",1)
             context['files'] =  pages.page(current_page)
             context['page'] = pages.get_page(current_page)

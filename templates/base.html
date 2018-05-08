@@ -43,15 +43,18 @@
         <li class="nav-item">
           <a class="nav-link text-light" href="{% url 'download' %}">下载</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="{% url 'data_util' %}">分析工具</a>
+        </li>
      </ul>
 
-       <form class="form-inline my-2 my-lg-0">
+       <form  action="{% url 'search' %}" method="GET" class="form-inline my-2 my-lg-0">
         <div class="input-group mr-sm-2">
           <!--此处可写搜索功能，不需要的话可以删掉-->
-          <form action="">
-            <input type="text" class="form-control input-text" placeholder="搜索…">
+          <form action="{% url 'search' %}" method="GET">
+            <input type="text" class="form-control input-text" name="search_key" placeholder="搜索…">
             <div class="input-group-append">
-              <button class="btn btn-outline-warning" type="button">
+              <button class="btn btn-outline-warning" type="submit">
                 <svg id="i-search" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="float:right;">
                   <circle cx="14" cy="14" r="12" />
                   <path d="M23 23 L30 30"  />
@@ -116,6 +119,7 @@
       </form> -->
     </div>
   </nav>
+  <br>
   {% block content %}{% endblock %}
 
   
@@ -127,11 +131,12 @@
     </div>
   </footer>
 
-
+  
   <script src="{% static 'js/jquery-3.3.1.min.js' %}" ></script>
+  <script src="{% static 'js/fixfooter.js' %}" ></script>
   <script src="{% static 'js/popper.min.js' %}" ></script>
   <script src="{% static 'js/bootstrap.min.js' %}" ></script>
-  <script src="{% static 'js/fixfooter.js' %}" ></script>
+  
   {% block script %}{% endblock %}
 
 </body>

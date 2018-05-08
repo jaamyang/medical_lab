@@ -19,29 +19,10 @@ def get_text():
 
 def home(request):
     context = get_text()
-    #context ['type'] = models.Type.objects.all()
-    # news = get_object_or_404(models.Type,name = '新闻动态')
-    # achievements = get_object_or_404(models.Type,name = '科研成果')
-    # activity = get_object_or_404(models.Type,name = '学术活动')
-    # notice = get_object_or_404(models.Type,name = '通知公告')
-    # context ['news'] = models.Text.objects.filter(text_type = news,is_delete = False).order_by('-created_time')[:5]
-    # context ['activity'] = models.Text.objects.filter(text_type = activity).order_by('-created_time')[:5]
-    # context ['achievements'] = models.Text.objects.filter(text_type = achievements).order_by('-created_time')[:5]
-    # context ['notice'] = models.Text.objects.filter(text_type = notice).order_by('-created_time')[:5]
-    # context ['texts'] = models.Text.objects.filter(is_delete = False).order_by('-created_time')[:5]
     return render(request,'home.html',context)
 
 def activities(request):
     context = get_text()
-    # news = get_object_or_404(models.Type,name = '新闻动态')
-    # achievements = get_object_or_404(models.Type,name = '科研成果')
-    # activity = get_object_or_404(models.Type,name = '学术活动')
-    # notice = get_object_or_404(models.Type,name = '通知公告')
-    # context ['news'] = models.Text.objects.filter(text_type = news,is_delete = False).order_by('-created_time')
-    # context ['activity'] = models.Text.objects.filter(text_type = activity).order_by('-created_time')
-    # context ['achievements'] = models.Text.objects.filter(text_type = achievements).order_by('-created_time')
-    # context ['notice'] = models.Text.objects.filter(text_type = notice).order_by('-created_time')
-    # context ['texts'] = models.Text.objects.filter(is_delete = False).order_by('-created_time')[:5]
     return render(request,'activities.html',context)
 
 def intro(request):
@@ -52,15 +33,6 @@ def members(request):
 
 def achievements(request):
     context = get_text()
-    # news = get_object_or_404(models.Type,name = '新闻动态')
-    # achievements = get_object_or_404(models.Type,name = '科研成果')
-    # activity = get_object_or_404(models.Type,name = '学术活动')
-    # notice = get_object_or_404(models.Type,name = '通知公告')
-    # context ['news'] = models.Text.objects.filter(text_type = news,is_delete = False).order_by('-created_time')
-    # context ['activity'] = models.Text.objects.filter(text_type = activity).order_by('-created_time')
-    # context ['achievements'] = models.Text.objects.filter(text_type = achievements).order_by('-created_time')
-    # context ['notice'] = models.Text.objects.filter(text_type = notice).order_by('-created_time')
-    # context ['texts'] = models.Text.objects.filter(is_delete = False).order_by('-created_time')[:5]
     return render(request,'achievements.html',context)
 
 def login(request):
@@ -91,3 +63,14 @@ def text_detail(request,text_pk):
     context ['text'] = text
     return render(request,'detail.html',context) 
  
+def search(request):
+    search_key = request.GET.get('search_key')
+    error_msg = ''
+    print(search_key)
+    if not search_key:
+        error_msg = '请输入关键词'
+        return render(request, 'search.html', {'error_msg': error_msg})
+
+    text_list = models.Text.objects.filter(title__icontains=search_key)
+    return render(request, 'search.html', {'error_msg': error_msg,
+                                               'text_list': text_list})

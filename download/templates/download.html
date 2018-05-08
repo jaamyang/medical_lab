@@ -103,21 +103,13 @@
     </ul>
        
   </div>
-  {% if messages %}
-
-    <ulclass="messages">
-        {%for message in messages %}
-        <li{%if message.tags %} class="{{ message.tags }}"{% endif %}>{{message }}</li>
-        {%endfor %}
-    </ul>
-
-{% endif %}
 
 {% endblock %}
 
 
 {% block script %}
   <script src="{% static 'js/plug-in.js' %}" ></script>
+
   <script type="text/javascript">
     // plain ajax csrf !!!!
     // var csrfcookie = function() {
@@ -150,29 +142,6 @@
                 $.Pop('您没有相关文件的下载权限！',{Animation:'showSweetAlert'});
               }
             else{
-               // var req = new XMLHttpRequest();
-               //  req.onload = function (event) {
-               //     var blob = req.response;
-               //     var fileName = req.getResponseHeader("fileName") //if you have the fileName header available
-               //     var link=document.createElement('a');
-               //     link.href=window.URL.createObjectURL(blob);
-               //     link.download=fileName;
-               //     link.click();
-               //     
-                // var filename = "";
-                // var disposition = jqXHR.getResponseHeader('Content-Disposition');
-                // if (disposition && disposition.indexOf('attachment') !== -1) {
-                //     var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                //     var matches = filenameRegex.exec(disposition);
-                //     if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-                // }
-
-                // var blob=new Blob([result],{type : 'application/octet-stream'});
-                // var link=document.createElement('a');
-                // link.href=window.URL.createObjectURL(blob);
-                // link.download=filename;
-                // link.click();
-                // 
                 var link=document.createElement('a');
                 link.href = new URL(result,'http://localhost:8000/')
                 link.click();
@@ -180,45 +149,9 @@
               }               
       });
     }
-    
-
-    // function fdownload(file){
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open('POST', "{% url 'file_download'  %}", true);
-    //   xhr.responseType = "";
-    //   xhr.processData = false
-    //   // xhr.setRequestHeader("client_type", "DESKTOP_WEB");
-    //   // xhr.setRequestHeader("desktop_web_access_key", _desktop_web_access_key);
-    //   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    //   xhr.setRequestHeader('X-CSRFToken', csrfcookie());
-    //   var data = { "file_pk": file, };
-    //   xhr.onload = function() {
-    //       if (this.status == 200) {
-    //         if (xhr.responseText == "true"){
-    //            $.Pop('您没有相关文件的下载权限！',{Animation:'showSweetAlert'});
-    //         }
-    //         else{
-    //           var filename = "";
-    //           var disposition = xhr.getResponseHeader('Content-Disposition');
-    //           if (disposition && disposition.indexOf('attachment') !== -1) {
-    //               var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-    //               var matches = filenameRegex.exec(disposition);
-    //               if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-    //           }
-
-    //           var blob = this.response;
-    //           var link=document.createElement('a');
-    //           link.href=window.URL.createObjectURL(blob);
-    //           link.download=filename;
-    //           link.click();
-    //         }
-                  
-    //       }
-    //   };
-    //   xhr.send(data);
-    // }
 
   </script>
+  
 {% endblock %}
 
 

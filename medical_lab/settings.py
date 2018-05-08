@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'download',
+    'Data_visualization',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,13 @@ CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 CKEDITOR_CONFIGS = {  
     'default': {  
-        'toolbar': 'full',  
+        'toolbar': 'full',
+         'extraPlugins': ','.join([
+            'html5video',
+            'widget',
+            'widgetselection',
+            'clipboard',
+            'lineutils',
+            ]),
     },  
 }  
