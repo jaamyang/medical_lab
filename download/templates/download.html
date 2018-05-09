@@ -36,15 +36,17 @@
           <th>下载链接</th>
         </tr>
       </thead>
-      {% for file in files %}
       <tbody>
+      {% for file in files %}
+      <tr>
         <td>{{file.file_name}}</td>
         <td>{{ file.descript }}</td>
         <td>{{ file.upload_date }}</td>
         <td><a name="download" class="link-style" href="javascript:" onClick="fdownload({{file.pk}})">下载</a></td>
-        <!-- <td><a class="link-style" href="{% url 'test_file_download' file.pk %}" >下载</a></td>
-      </tbody> -->
+        <!-- <td><a class="link-style" href="{% url 'test_file_download' file.pk %}" >下载</a></td> -->
+      </tr>
       {% endfor %}
+      </tbody>
       <!-- <tbody>
         <tr>
           <td>1</td>
@@ -71,7 +73,7 @@
     </table>
   </div>
   <br>
-  <div class="pagination">
+  <nav class="page" aria-label="...">
     <ul class="pagination justify-content-center">
       {% if page.has_previous %}
           <li class="page-item ">
@@ -84,11 +86,31 @@
       {% endif %}
       
       {% for number in page.paginator.page_range %}
+        {% if page.paginator.num_pages <= 5 %}
           {% if page.number is number %}
             <li class="page-item active"><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
           {% else %}
             <li class="page-item "><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
           {% endif %}
+        {% else %}
+          {% if number == 1 or number == page.paginator.num_pages %}
+            {% if page.number is number %}
+              <li class="page-item active"><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+            {% else %}
+              <li class="page-item "><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+            {% endif %}
+          {% else %}
+            {% if page.number is number %}
+              <li class="page-item active"><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+            {% elif number == page.number|add:1 %}
+              <li class="page-item "><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+              <li class="page-item"><a class="page-link">...</a></li>
+            {% elif page.number == number|add:1 %}
+              <li class="page-item"><a class="page-link">...</a></li>
+              <li class="page-item "><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
+            {% endif %}
+          {% endif %}
+        {% endif %}
       {% endfor %}
 
       {% if page.has_next %}
@@ -102,7 +124,7 @@
       {% endif %}      
     </ul>
        
-  </div>
+  </nav>
 
 {% endblock %}
 
