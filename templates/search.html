@@ -13,11 +13,33 @@
 
 {% block content %}
     <div class = 'container'>
+      <form action="{% url 'search' %}" method="GET">
+        <div class="input-group mr-sm-2">
+          <input type="text" class="form-control border-info" name="search_key" placeholder="搜索…" style="max-width: 300px;">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info" type="submit">
+              <svg id="i-search" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="float:right;">
+                <circle cx="14" cy="14" r="12" />
+                <path d="M23 23 L30 30"  />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+      <br>
+      <p>找到了????条搜索结果</p><!--不会写-->
+      <h4 >高级搜索：</h4>
+      <hr>
+      <form>
+        <input type="radio" name="condition" value="title" checked>按标题    <input type="radio" name="condition" value="author">按作者    <input type="radio" name="condition" value="content">按内容
+      </form><!--这里写单选功能-->
+      <br>
+
           {% if text_list %}
             <h4 >搜索结果：</h4>
             <hr>
             {% for text in text_list %}
-              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a> 
+              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a>
             {% endfor %}
           {% else %}
             <p style = 'text-align: center'>--无相关结果--</p>
