@@ -17,7 +17,11 @@
             <h4 >搜索结果：</h4>
             <hr>
             {% for text in text_list %}
-              <a href="{% url 'text_detail' text.pk %}" class="link-style"><p>{{ text.title }}</p></a>
+              <div class="jumbotron">
+                <h4 class="display-15">{{ text.title }}</h4>
+                <p class="lead">这是一行简介，可删。</p>
+                <a class="btn btn-info" href="{% url 'text_detail' text.pk %}" role="button">了解更多</a>
+              </div>
             {% endfor %}
           {% else %}
             <p style = 'text-align: center'>--无相关结果--</p>
