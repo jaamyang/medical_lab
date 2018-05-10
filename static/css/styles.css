@@ -11,8 +11,20 @@
   margin: 1rem;
 }
 
-.card-style {
+.leader-style {
   max-width: 300px;
+  border: 1px solid #ffffff;
+}
+
+.member-style {
+  max-width: 150px;
+  border: 1px solid #ffffff;
+}
+
+.member-img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 25px 20px -20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.06);
 }
 
 footer {
