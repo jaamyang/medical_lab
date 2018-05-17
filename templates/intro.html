@@ -10,12 +10,9 @@
 
 {% block content %}
   <br>
-  <div class="card card-group-style">
-    <div class="card-body">
-      <h5 class="card-title title">研究室简介</h5>
-      <p class="card-text paragraph">医疗大数据应用技术国家工程实验室是由中华人民共和国国家发展和改革委员会批复，中国人民解放军总医院为牵头单位筹建的国家工程实验室。</p>
-      <p>针对中国医疗质量监管、临床辅助诊疗、卫生经济分析、公共卫生政策评价水平不高等问题，建设医疗大数据应用技术创新平台，支撑开展医疗大数据整合管理、互联互通、互认共享、分析检索、标准规范、隐私保护等技术的研发工程化。</p>
-      <p>截止17年研究所的研究人员获得了12个图灵奖，20个诺贝尔奖，9个奥斯卡奖，114个艾米奖，44个托尼奖。</p>
+  <div class="card card-group-style " >
+    <div class="card-body container" style="width: 1000px;text-align: center;margin: auto;" >
+      {{intro.content|safe}}
     </div>
   </div>
 {% endblock %}

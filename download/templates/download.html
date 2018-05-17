@@ -9,16 +9,19 @@
 
 
 {% block style %}
-  <script type="text/javascript">
-  　　function myfun(y) 　　
-    { 　
-        if(y == true)　{
-          alert("您没有相关下载权限！"); 
-        } 
-        　　
-    } 　　　
-    window.onload = myfun({{error_message}});
-  </script>
+  
+  <style type="text/css">
+      {#页码跳转的显示样式#}
+      #page_goto span{
+          padding: 6px 4px;
+      }
+      #page_goto input{
+          border: none;
+          padding: 0;
+          width: 2em;
+          text-align: center;
+      }
+  </style>
 {% endblock %}
 
 
@@ -36,72 +39,56 @@
           <th>下载链接</th>
         </tr>
       </thead>
-      {% for file in files %}
+      
       <tbody>
+      {% for file in files %}
+      <tr>
         <td>{{file.file_name}}</td>
         <td>{{ file.descript }}</td>
         <td>{{ file.upload_date }}</td>
         <td><a name="download" class="link-style" href="javascript:" onClick="fdownload({{file.pk}})">下载</a></td>
-        <!-- <td><a class="link-style" href="{% url 'test_file_download' file.pk %}" >下载</a></td>
-      </tbody> -->
-      {% endfor %}
-      <!-- <tbody>
-        <tr>
-          <td>1</td>
-          <td>blue.png</td>
-          <td>图片</td>
-          <td>2018/2/20</td>
-          <td><a class="link-style" href="img\blue.png" download="blue">下载</a></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>pink.png</td>
-          <td>图片</td>
-          <td>2018/2/20</td>
-          <td><a class="link-style" href="img\pink.png" download="pink">下载</a></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>purple.png</td>
-          <td>图片</td>
-          <td>2018/2/20</td>
-          <td><a class="link-style" href="img\purple.png" download="purple">下载</a></td>
-        </tr>
-      </tbody> -->
+      </tr>
+      {% endfor %}     
+      </tbody>
     </table>
   </div>
   <br>
-  <div class="pagination">
-    <ul class="pagination justify-content-center">
-      {% if page.has_previous %}
-          <li class="page-item ">
-            <a class="page-link" href="?page=1" tabindex="-1">&laquo;</a>
-          </li>
-      {% else %}
-          <li class="page-item  disabled">
-            <a class="page-link" href="?page=1" tabindex="-1">&laquo;</a>
-          </li>
-      {% endif %}
-      
-      {% for number in page.paginator.page_range %}
-          {% if page.number is number %}
-            <li class="page-item active"><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
-          {% else %}
-            <li class="page-item "><a class="page-link" href="?page={{ number }}">{{ number }}</a></li>
-          {% endif %}
-      {% endfor %}
+  
+  <div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a href="?page=
+                {% if files.has_previous %}
+                    {{files.previous_page_number}}
+                {% else %}
+                    {{files.number}}
+                {% endif %}"
+             aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
 
-      {% if page.has_next %}
-          <li class="page-item ">
-            <a class="page-link" href="?page={{ page.paginator.num_pages }}" tabindex="-1">&raquo;</a>
-          </li>
-      {% else %}
-          <li class="page-item  disabled">
-            <a class="page-link" href="?page={{ page.paginator.num_pages }}" tabindex="-1">&raquo;</a>
-          </li>
-      {% endif %}      
+        {% for page in pages.page_range_ex %}
+            {% if page == '...' %}
+                <li><span>...</span></li>
+            {% else %}
+                <li class="page-item "><a href="?page={{page}}">{{page}}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        <li class="page-item ">
+            <a href="?page=
+                {% if files.has_next %}
+                    {{files.next_page_number}}
+                {% else %}
+                    {{files.number}}
+                {% endif %}"
+             aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
     </ul>
-       
+
   </div>
 
 {% endblock %}
@@ -111,22 +98,6 @@
   <script src="{% static 'js/plug-in.js' %}" ></script>
 
   <script type="text/javascript">
-    // plain ajax csrf !!!!
-    // var csrfcookie = function() {
-    //   var cookieValue = null,
-    //       name = 'csrftoken';
-    //   if (document.cookie && document.cookie !== '') {
-    //       var cookies = document.cookie.split(';');
-    //       for (var i = 0; i < cookies.length; i++) {
-    //           var cookie = cookies[i].trim();
-    //           if (cookie.substring(0, name.length + 1) == (name + '=')) {
-    //               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-    //               break;
-    //           }
-    //       }
-    //   }
-    //   return cookieValue;
-    // };
 
     //jq ajax
     function fdownload(file_pk){
@@ -149,9 +120,25 @@
               }               
       });
     }
-
+  </script>
+  <script type="text/javascript">
+    {#设置凸显当前页码#}
+    $(".pagination li a").each(function(){
+        if($(this).text()=="{{files.number}}"){
+            $(this).parent().addClass("active");
+        }
+    });
+ 
+    {#页码跳转处理#}
+    function page_goto(){
+        var page = $("#page_goto input")[0].value;
+        window.location.href = '?page=' + page;  //重定向
+        return false;
+    }
   </script>
   
+
+
 {% endblock %}
 
 

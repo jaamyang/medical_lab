@@ -17,9 +17,7 @@ class Text(models.Model):
     author = models.ForeignKey(User,on_delete = models.DO_NOTHING)
     text_type = models.ForeignKey(Type,null = True, on_delete = models.DO_NOTHING)
     content = RichTextUploadingField()
-    #read_num = models.OneToOneField(read_num,on_delete = models.CASCADE)
-    #file = models.FileField(upload_to = 'files/%Y/%m/%d/',null = True,blank = True)
-    file = models.ManyToManyField(Download_file)
+    file = models.ManyToManyField(Download_file,blank = True)
     created_time = models.DateTimeField(auto_now_add = True)
     last_updated = models.DateTimeField(auto_now = True)
     is_delete = models.BooleanField(default = False)
@@ -30,6 +28,7 @@ class Text(models.Model):
 class read_num(models.Model):
     text = models.OneToOneField(Text,on_delete = models.DO_NOTHING)
     num = models.IntegerField(default = 0)
+
 
 class User(models.Model):
     name = models.CharField(max_length = 20)

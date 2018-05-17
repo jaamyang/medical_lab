@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404,HttpResponse,redirect
 from homesite import models
-from django.contrib import auth
+from download import models as dlmod
+from django.contrib.auth.models import User
 from download.models import  Download_file
 
 
@@ -26,7 +27,9 @@ def activities(request):
     return render(request,'activities.html',context)
 
 def intro(request):
-    return render(request,'intro.html')
+    context = {}
+    context['intro'] = models.Text.objects.filter(text_type = get_object_or_404(models.Type,name = 'intor'))[0]
+    return render(request,'intro.html',context)
 
 def members(request):
     return render(request,'members.html')
@@ -65,12 +68,20 @@ def text_detail(request,text_pk):
  
 def search(request):
     search_key = request.GET.get('search_key')
-    error_msg = ''
-    print(search_key)
-    if not search_key:
-        error_msg = '请输入关键词'
-        return render(request, 'search.html', {'error_msg': error_msg})
+    search_condition = request.GET.get('condition','title')
+    print(search_key,search_condition)
+    print(search_condition=='title')
+    text_results = []
+    file_results = []
+    if search_condition =='title':
+        text_results = models.Text.objects.filter(title__icontains = search_key)
+    elif search_condition == 'author':
+        author = get_object_or_404(User,username = search_key)
+        text_results = models.Text.objects.filter(author = author)
+    elif search_condition == 'content':
+        text_results = models.Text.objects.filter(content__icontains = search_key)
+    else:
+        file_results = dlmod.Download_file.objects.filter(file_name__icontains = search_key)
+    return render(request, 'search.html', {'text_results': text_results,'file_results':file_results})
 
-    text_list = models.Text.objects.filter(title__icontains=search_key)
-    return render(request, 'search.html', {'error_msg': error_msg,
-                                               'text_list': text_list})
+    

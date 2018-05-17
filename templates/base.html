@@ -52,7 +52,7 @@
         <div class="input-group mr-sm-2">
           <!--此处可写搜索功能，不需要的话可以删掉-->
           <form action="{% url 'search' %}" method="GET">
-            <input type="text" class="form-control input-text" name="search_key" placeholder="搜索…">
+            <input type="text" class="form-control input-text" name="search_key" placeholder="搜索…" required>
             <div class="input-group-append">
               <button class="btn btn-outline-warning" type="submit">
                 <svg id="i-search" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="float:right;">
@@ -77,51 +77,11 @@
         {% endif %}
          
       </form>
-
-      <!-- <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="搜索…">
-
-        <button type="button" class="btn btn-outline-light my-2 my-sm-0" data-toggle="modal" data-target="#login">登录</button>
-
-        <div class="modal fade" style="max-width: 350px;" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="loginLabel">用户登陆</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="margin: 5px;">
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="username">账户</span>
-                  </div>
-                  <input type="text" class="form-control" aria-label="Default" aria-describedby="username">
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="password">密码</span>
-                  </div>
-                  <input type="text" class="form-control" aria-label="Default" aria-describedby="password">
-                </div>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary">登录</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </form> -->
     </div>
   </nav>
-  <br>
+  
   {% block content %}{% endblock %}
-
+ 
   
   <footer class="text-muted footer-style">
     <div class="container-fluid p-3">
