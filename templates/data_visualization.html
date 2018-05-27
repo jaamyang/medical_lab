@@ -101,14 +101,15 @@
 {#        </div>#}
 {#      </div>#}
 {#    </div>#}
-    <div class="col-sm-9">
+<div class="container">
+    <div class="col-sm-12">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">分析结果</h4>
           <hr>
-          <div id="tall_pie" style="width: 400px;height:400px; float:left;"></div>
+          <div id="pie1" style="width: 400px;height:400px; float:left;"></div>
           <hr>
-          <div id="tall_bar" style="width: 400px;height:400px;float:right;"></div>
+          <div id="bar1" style="width: 400px;height:400px;float:right;"></div>
         </div>
       </div>
     </div>
@@ -238,16 +239,22 @@
         chart1.setOption(tall_option_bar);
         chart2.setOption(tall_option_pie);
  */
-    var myChart1 = echarts.init(document.getElementById('tall_bar'));
-    var myChart2 = echarts.init(document.getElementById('tall_pie'));
-    myChart1.setOption({
+    var bar1 = echarts.init(document.getElementById('bar1'));
+    var pie1 = echarts.init(document.getElementById('pie1'));
+    bar1.setOption({
         title: {
             text: ''
         },
         tooltip: {},
         legend: {
-            data:['销量']
+            data:['']
         },
+        toolbox: {
+        show : true,
+        feature : {
+            saveAsImage : {show: true}
+        }
+    },
         xAxis: {
             data: []
         },
@@ -258,33 +265,95 @@
             data: []
         }]
     });
-    myChart1.showLoading();
+
+
+    pie1.setOption({
+        title: {
+            text: ''
+        },
+        tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        toolbox: {
+        show : true,
+        feature : {
+            saveAsImage : {show: true}
+            }
+        },
+        
+        series: [{
+            name: '',
+            type: 'pie',
+            data: []
+        }]
+    });
+
+
+    bar1.showLoading();
     $.get('{% url 'data_process' %}').done(function (data) {
         // 填入数据
-        myChart1.hideLoading();
-        myChart1.setOption({
+        bar1.hideLoading();
+        bar1.setOption({
             title:{
-                text: data.title
+                text: data.bar.title
             },
             legend: {
-                data:[data.present]
+                data:[data.bar.present]
             },
             xAxis: {
-                data: data.name
+                data: data.bar.name
             },
             series: [{
                 // 根据名字对应到相应的系列
-                type: data.type[1],
-                name: data.present,
-                data: data.data
+                type: 'bar',
+                name: data.bar.present,
+                data: data.bar.data,
             }]
         });
-        myChart2.setOption({
-            title:{
 
-            }
-        })
-    });
+
+        pie1.setOption({
+            title:{
+                text:data.pie.title,
+                x:'center',
+            },
+
+            legend: {
+                    x : 'center',
+                    y : 'bottom',
+                },
+
+            series:[{
+                name:data.pie.unit,
+                type:'pie',
+                radius : [30, 110],
+                center : ['50%', '40%'],
+                roseType : 'radius',
+                data:data.pie.data
+            }]
+        });
+
+
+        scatter1.setOption({            
+            xAxis: {
+                scale: true
+            },
+            yAxis: {
+                scale: true
+            },
+            series: [{
+                type: 'effectScatter',
+                symbolSize: 20,
+                data: [
+                    [172.7, 105.2],
+                    [153.4, 42]
+                ]
+            }, {
+                type: 'scatter',
+                data:
+            }]
+        });
 
 
 
